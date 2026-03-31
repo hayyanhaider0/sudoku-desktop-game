@@ -70,4 +70,21 @@ public class FileSudokuBoardDaoTest {
 
     }
 
+    @Test
+    public void testNames_returnsWrittenFileNames() {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+
+        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.createSudokuBoardDao(TEST_DIRECTORY)) {
+            dao.write("game_one", board);
+            dao.write("game_two", board);
+
+            var names = dao.names();
+
+            assertTrue(names.contains("game_one"));
+            assertTrue(names.contains("game_two"));
+        } catch (Exception e) {
+            Assertions.fail(e);
+        }
+    }
+
 }
